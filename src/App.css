@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @custom-variant hover (&:hover);
-body,
+/* body,
 html {
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* optional: avoids horizontal scroll */
-}
+/* } */
 
