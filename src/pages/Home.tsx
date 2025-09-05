@@ -3,7 +3,7 @@ import { Play, Compass } from "lucide-react";
 import Employees from "../assets/images/employees.jpg";
 const Home = () => {
   return (
-    <div className="flex justify-center items-center">
+    <div className="mt-10 flex justify-center items-center">
       <div className="py-10 pr-10 flex justify-between">
         <div className="w-[70%] pr-[2.5rem] flex flex-col gap-y-4 text-xl">
           <h1 className="text-[32px] font-bold">

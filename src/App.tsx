@@ -1,23 +1,22 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Home from "./Components/Home";
-import { Skills } from "./Components/Skills";
-import { Learning } from "./Components/Learning";
-import { Career } from "./Components/Career";
-import NavBar from "./Components/NavBar";
+import Home from "./pages/Home";
+import { Skills } from "./pages/Skills";
+import { Learning } from "./pages/Learning";
+import { Career } from "./pages/Career";
+import Layout from "./Components/Layout";
 function App() {
   return (
     <Router>
       <div className="min-h-screen max-w-[95%] mx-auto ">
-        <NavBar />
-        <main className="flex-grow p-8 bg-gray-50">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/skills" element={<Skills />} />
-            <Route path="/learning" element={<Learning />} />
-            <Route path="/career" element={<Career />} />
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/skills" element={<Skills />} />
+              <Route path="/learning" element={<Learning />} />
+              <Route path="/career" element={<Career />} />
+            </Route>
           </Routes>
-        </main>
       </div>
     </Router>
   );

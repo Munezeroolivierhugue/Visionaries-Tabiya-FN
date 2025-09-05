@@ -1,19 +1,20 @@
 import { Link, NavLink } from "react-router-dom";
 import Profile from "../assets/images/profile.jpg";
-
+import Logo from "../assets/images/logo.png"
 const navItems = [
   // { name: "Dashboard", path: "/" },
   { name: "Skills Assesments", path: "/skills" },
   { name: "Career paths", path: "/career" },
-  { name: "Learning", path: "/learning" },
+  { name: "Learning Resources", path: "/learning" },
 ];
 
 const NavBar: React.FC = () => {
   return (
-    <nav className="bg-white shadow-md mt-5">
-      <div className="px-6 py-4 flex justify-between">
-        <Link to="/" className="text-2xl font-bold text-blue-600">
-          SkillsBridge
+    <nav className=" mt-3 bg-white shadow-md">
+      <div className="px-6 py-4 flex justify-between items-center">
+        <Link to="/" className="text-2xl font-bold flex gap-x-0.5 text-blue-600">
+          <img src={Logo} alt="Logo" className="w-12 h-12 rounded-lg" />
+          <span className="font-bold text-black place-self-center text-lg">SkillBridge</span>
         </Link>
         <div className="flex space-x-6">
           {navItems.map((item) => (
