@@ -5,6 +5,8 @@ import { Skills } from "./pages/Skills";
 import { Learning } from "./pages/Learning";
 import { Career } from "./pages/Career";
 import Layout from "./Components/Layout";
+import './App.css'
+
 function App() {
   return (
     <Router>
