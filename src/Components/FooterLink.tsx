@@ -1,18 +1,27 @@
 interface FooterLinkProps {
-  links: string[];
-}
-const FooterLink = (links: FooterLinkProps) => {
-  return (
-    <div className="flex flex-col">
-      {Object.values(links).map((word:string,index:number)=>{
-        return(<div className="flex flex-row" key={index}>
-          <h1>{index%5===0 && word}</h1>
-          <p>{!(index%5 === 0) && word}</p>
-          </div>
-        )
-      })}
-    </div>
-  )
+  links: { category: string; items: string[] }[];
 }
 
-export default FooterLink
+const FooterLink = ({ links }: FooterLinkProps) => {
+  return (
+    <div className="grid grid-cols-4 gap-6">
+      {links.map((section, index) => (
+        <div key={index} className="flex flex-col gap-2">
+          <h1 className="text-lg font-bold">{section.category}</h1>
+          {section.items.map((item, itemIndex) => (
+            <p key={itemIndex}>
+              <a
+                href={`/${item.toLowerCase().replace(/\s+/g, '-')}`}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                {item}
+              </a>
+            </p>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default FooterLink;
