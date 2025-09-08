@@ -35,7 +35,7 @@ const Footer = () => {
   ];
 
   return (
-    <div className="bg-[#1A202C] text-white flex flex-col p-10 absolute bottom-0 left-0 w-screen">
+    <div className="bg-[#1A202C] text-white flex flex-col p-10 bottom-0 left-0 w-screen">
       <div className="flex flex-row gap-6 mb-6">
         <div className="logo-desc w-[30%] flex items-center">
           <div>
