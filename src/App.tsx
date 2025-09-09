@@ -10,7 +10,7 @@ import './App.css'
 function App() {
   return (
     <Router>
-      <div className="min-h-screen max-w-[95%] mx-auto ">
+      <div className="min-h-screen">
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
