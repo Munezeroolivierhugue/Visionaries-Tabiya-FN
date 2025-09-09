@@ -3,15 +3,17 @@ import { Plus } from "lucide-react";
 import type { KeyboardEvent } from "react";
 import { MdCancel } from "react-icons/md";
 
+interface Language {
+  language: string;
+  fluencyLevel: string;
+}
+
 export const Skills = () => {
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
   const softSkills = ["Leadership", "Communication"];
   const [selectedSoftSkills, setSelectedSoftSkills] = useState<string[]>([]);
-  const [selectedLanguage, setSelectedLanguage] = useState<{
-    language: string;
-    fluencyLevel: string;
-  }>({ language: "", fluencyLevel: "" });
+  const [selectedLanguage, setSelectedLanguage] = useState<Language | null>(null);
   const [selectedLanguages, setSelectedLanguages] = useState<
     { language: string; fluencyLevel: string }[]
   >([]);
@@ -117,9 +119,13 @@ export const Skills = () => {
             setSelectedSoftSkills([...selectedSoftSkills, event.target.value])
           }
         >
-          <option key="default" value="">Select soft skills...</option>
+          <option key="default" value="">
+            Select soft skills...
+          </option>
           {softSkills.map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <option key={s} value={s}>
+              {s}
+            </option>
           ))}
         </select>
         <div className="flex flex-wrap gap-2 mt-2">
@@ -188,34 +194,57 @@ export const Skills = () => {
               setSelectedLanguage({
                 ...selectedLanguage,
                 language: event.target.value,
+                fluencyLevel: ""
               })
             }
           >
-            <option key="default" value="">Languages</option>
-            <option key="English" value="English">English</option>
-            <option key="French" value="French">French</option>
+            <option key="default" value="">
+              Language
+            </option>
+            <option key="English" value="English">
+              English
+            </option>
+            <option key="French" value="French">
+              French
+            </option>
           </select>
           <select
             className="border rounded-lg px-3 py-2"
             onChange={(event) =>
+              selectedLanguage?.language &&
               setSelectedLanguage({
                 ...selectedLanguage,
                 fluencyLevel: event.target.value,
               })
             }
           >
-            <option key="default" value="">Fluency level</option>
-            <option key="Native" value="Native">Native</option>
-            <option key="Fluent" value="Fluent">Fluent</option>
-            <option key="Intermediate" value="Intermediate">Intermediate</option>
-            <option key="Beginner" value="Beginner">Beginner</option>
+            <option key="default" value="">
+              Fluency level
+            </option>
+            <option key="Native" value="Native">
+              Native
+            </option>
+            <option key="Fluent" value="Fluent">
+              Fluent
+            </option>
+            <option key="Intermediate" value="Intermediate">
+              Intermediate
+            </option>
+            <option key="Beginner" value="Beginner">
+              Beginner
+            </option>
           </select>
-          <button className="text-red-500 cursor-pointer" onClick={() => setSelectedLanguages([])}>🗑</button>
+          <button
+            className="text-red-500 cursor-pointer"
+            onClick={() => setSelectedLanguages([])}
+          >
+            🗑
+          </button>
         </div>
         <button
           className="text-blue-600 flex items-center gap-x-1 cursor-pointer"
           onClick={() =>
-            selectedLanguage &&
+            selectedLanguage?.fluencyLevel &&
             setSelectedLanguages([...selectedLanguages, selectedLanguage])
           }
         >
