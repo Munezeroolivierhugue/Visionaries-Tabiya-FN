@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import type { KeyboardEvent } from "react";
+import { MdCancel } from "react-icons/md";
 
 export const Skills = () => {
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
-  const [softSkills, setSoftSkills] = useState(["Leadership", "Communication"]);
-  const [language, setLanguage] = useState("English");
+  const softSkills = ["Leadership", "Communication"];
+  const [selectedSoftSkills, setSelectedSoftSkills] = useState<string[]>([]);
+  const [selectedLanguage, setSelectedLanguage] = useState<{
+    language: string;
+    fluencyLevel: string;
+  }>({ language: "", fluencyLevel: "" });
+  const [selectedLanguages, setSelectedLanguages] = useState<
+    { language: string; fluencyLevel: string }[]
+  >([]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       setSkills([...skills, skill]);
       setSkill("");
     }
-  }
+  };
   return (
     <div className="max-w-5xl mx-auto mt-10 mb-10 p-6 bg-white shadow rounded-2xl">
       <div className="flex justify-between items-start mb-6">
@@ -60,9 +68,19 @@ export const Skills = () => {
               {skills.map((skill) => (
                 <span
                   key={skill}
-                  className="bg-gray-200 px-3 py-1 rounded-full text-sm"
+                  className="bg-gray-200 flex gap-x-1 px-3 py-1 rounded-full text-sm"
                 >
-                  {skill} ✕
+                  {skill}
+                  <button
+                    className="cursor-pointer"
+                    onClick={() =>
+                      setSkills([
+                        ...skills.filter((addedSkill) => addedSkill !== skill),
+                      ])
+                    }
+                  >
+                    <MdCancel />
+                  </button>
                 </span>
               ))}
             </div>
@@ -93,16 +111,34 @@ export const Skills = () => {
       {/* Soft Skills */}
       <div className="mb-6">
         <label className="block mb-1 font-medium">Soft Skills</label>
-        <select className="w-full border rounded-lg px-3 py-2">
-          <option>Select soft skills...</option>
+        <select
+          className="w-full border rounded-lg px-3 py-2"
+          onChange={(event) =>
+            setSelectedSoftSkills([...selectedSoftSkills, event.target.value])
+          }
+        >
+          <option key="default" value="">Select soft skills...</option>
+          {softSkills.map((s) => (
+            <option key={s} value={s}>{s}</option>
+          ))}
         </select>
         <div className="flex flex-wrap gap-2 mt-2">
-          {softSkills.map((s) => (
+          {selectedSoftSkills.map((softSkill) => (
             <span
-              key={s}
-              className="bg-gray-200 px-3 py-1 rounded-full text-sm"
+              key={softSkill}
+              className="bg-gray-200 flex gap-x-1 px-3 py-1 rounded-full text-sm"
             >
-              {s}
+              {softSkill}
+              <button
+                className="cursor-pointer"
+                onClick={() =>
+                  setSelectedSoftSkills([
+                    ...skills.filter((addedSkill) => addedSkill !== skill),
+                  ])
+                }
+              >
+                <MdCancel />
+              </button>
             </span>
           ))}
         </div>
@@ -146,21 +182,68 @@ export const Skills = () => {
       <div className="mb-6">
         <label className="block mb-1 font-medium">Languages</label>
         <div className="flex items-center gap-4 mb-2">
-          <select className="border rounded-lg px-3 py-2">
-            <option>English</option>
-            <option>French</option>
+          <select
+            className="border rounded-lg px-3 py-2"
+            onChange={(event) =>
+              setSelectedLanguage({
+                ...selectedLanguage,
+                language: event.target.value,
+              })
+            }
+          >
+            <option key="default" value="">Languages</option>
+            <option key="English" value="English">English</option>
+            <option key="French" value="French">French</option>
           </select>
-          <select className="border rounded-lg px-3 py-2">
-            <option>Native</option>
-            <option>Fluent</option>
-            <option>Intermediate</option>
-            <option>Beginner</option>
+          <select
+            className="border rounded-lg px-3 py-2"
+            onChange={(event) =>
+              setSelectedLanguage({
+                ...selectedLanguage,
+                fluencyLevel: event.target.value,
+              })
+            }
+          >
+            <option key="default" value="">Fluency level</option>
+            <option key="Native" value="Native">Native</option>
+            <option key="Fluent" value="Fluent">Fluent</option>
+            <option key="Intermediate" value="Intermediate">Intermediate</option>
+            <option key="Beginner" value="Beginner">Beginner</option>
           </select>
-          <button className="text-red-500">🗑</button>
+          <button className="text-red-500 cursor-pointer" onClick={() => setSelectedLanguages([])}>🗑</button>
         </div>
-        <button className="text-blue-600 flex items-center gap-1">
+        <button
+          className="text-blue-600 flex items-center gap-x-1 cursor-pointer"
+          onClick={() =>
+            selectedLanguage &&
+            setSelectedLanguages([...selectedLanguages, selectedLanguage])
+          }
+        >
           + Add Language
         </button>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {selectedLanguages.map(({ language, fluencyLevel }) => (
+            <span
+              key={language}
+              className="bg-gray-200 flex gap-x-1 px-3 py-1 rounded-full text-sm"
+            >
+              {language}:{fluencyLevel}
+              <button
+                className="cursor-pointer"
+                onClick={() =>
+                  setSelectedLanguages([
+                    ...selectedLanguages.filter(
+                      ({ language: selectedLanguage }) =>
+                        selectedLanguage !== language
+                    ),
+                  ])
+                }
+              >
+                <MdCancel />
+              </button>
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* Education */}
@@ -173,7 +256,7 @@ export const Skills = () => {
 
       {/* Submit Button */}
       <div className="flex justify-end">
-        <button className="bg-gray-800 text-white px-6 py-2 rounded-lg">
+        <button className="bg-blue-600 text-white px-6 py-2 rounded-lg">
           Analyze My Skills
         </button>
       </div>
