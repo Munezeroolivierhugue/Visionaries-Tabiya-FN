@@ -1,27 +1,27 @@
-import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Dahboard } from './Components/Dahboard';
-import { Skills } from './Components/Skills';
-import { Learning } from './Components/Learning';
-import { Career } from './Components/Career';
-import NavBar from './Components/NavBar';
-function App() {
+import "./App.css";
+import Home from "./pages/Home";
+import { Skills } from "./pages/Skills";
+import { Learning } from "./pages/Learning";
+import { Career } from "./pages/Career";
+import Layout from "./Components/Layout";
+import './App.css'
 
+function App() {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col">
-        <NavBar />
-        <main className="flex-grow p-8 bg-gray-50">
+      <div className="min-h-screen">
           <Routes>
-            <Route path="/" element={<Dahboard />} />
-            <Route path="/skills" element={<Skills />} />
-            <Route path="/learning" element={<Learning />} />
-            <Route path="/career" element={<Career/>} />
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/skills" element={<Skills />} />
+              <Route path="/learning" element={<Learning />} />
+              <Route path="/career" element={<Career />} />
+            </Route>
           </Routes>
-        </main>
       </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
