@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import type { KeyboardEvent } from "react";
 import { MdCancel } from "react-icons/md";
-import { supabase } from "../supabaseclient"; // Ensure this is correctly configured
+import { supabase } from "../supabaseClient";
 
 interface Language {
   language: string;
@@ -41,7 +41,7 @@ export const Skills = () => {
             console.error("Error fetching suggestions:", error);
             if (error.code === "42703") {
               console.warn("Check table schema: column names might not match.");
-            } else if (error.status === 400) {
+            } else if (error.message.includes("API key")) {
               console.warn("Check API key configuration or query syntax.");
             }
           } else {
