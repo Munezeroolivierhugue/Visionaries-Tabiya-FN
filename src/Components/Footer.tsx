@@ -69,7 +69,7 @@ const Footer = () => {
           <FooterLink links={links} />
         </div>
       </div>
-      <div className="border-t border-gray-700 pt-4 text-sm text-gray-500 flex justify-between">
+      <div className="border-t w-[95%] border-gray-700 pt-4 text-sm text-gray-500 flex justify-between">
         <span>© 2025 SkillPath. All rights reserved.</span>
         <span>Available in: English | French | Español</span>
       </div>
