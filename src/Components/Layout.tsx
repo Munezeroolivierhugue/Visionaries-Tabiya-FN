@@ -3,7 +3,7 @@ import Header from "./Header"
 import Footer from './Footer'
 const Layout = () => {
   return (
-    <div>
+    <div className="flex flex-col">
       <Header />
       <Outlet />
       <Footer />

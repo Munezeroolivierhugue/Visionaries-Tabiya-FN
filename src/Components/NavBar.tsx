@@ -22,8 +22,8 @@ const NavBar: React.FC = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `text-gray-600 hover:text-blue-600 transition-colors duration-200 ${
-                  isActive ? "text-blue-600 font-semibold" : ""
+                 `hover:text-blue-600 transition-colors duration-200 ${
+                  isActive ? "text-blue-600 font-semibold" : "text-gray-600"
                 }`
               }
             >
