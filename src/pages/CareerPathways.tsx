@@ -287,7 +287,7 @@ export default function CareerPathways() {
 
             
                 <div className="mt-6 flex items-center justify-end">
-                  <Button className="rounded-xl bg-blue-600">
+                  <Button className="rounded-xl bg-blue-600 hover:bg-white hover:text-blue-600 cursor-pointer">
                     <Briefcase className="mr-2 h-4 w-4" /> View Career Path
                   </Button>
                 </div>
