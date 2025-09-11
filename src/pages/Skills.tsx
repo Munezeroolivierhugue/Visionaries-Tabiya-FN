@@ -46,7 +46,7 @@ export const Skills = () => {
             }
           } else {
             setSuggestedSkills(data || []);
-          }
+          } 
         } catch (e) {
           console.error("Unexpected error:", e);
         }
