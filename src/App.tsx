@@ -5,7 +5,6 @@ import { Skills } from "./pages/Skills";
 import { Learning } from "./pages/Learning";
 import CareerPathways from "./pages/CareerPathways";
 import CareerPath from "./pages/CareerPath";
-
 import Layout from "./Components/Layout";
 import "./App.css";
 
