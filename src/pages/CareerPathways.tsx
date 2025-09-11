@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../Components/ui/button";
-
 import { Card, CardContent } from "../Components/ui/card";
 import { Badge } from "../Components/ui/badge";
 import { Input } from "../Components/ui/input";
@@ -33,10 +32,10 @@ type Career = {
   company: string;
   location: string;
   salaryRange: string;
-  durationToAchieve: string; // e.g., "6-12 months"
+  durationToAchieve: string;
   summary: string;
   requiredSkills: string[];
-  matchPercent: number; // 0 - 100
+  matchPercent: number; // Will be calculated
   category:
     | "Frontend"
     | "Project Management"
@@ -46,117 +45,6 @@ type Career = {
     | "Security";
   remote?: boolean;
 };
-
-// -----------------------------
-// Mock Data
-// -----------------------------
-
-const CAREERS: Career[] = [
-  {
-    id: "frontend-dev",
-    title: "Front-end Developer",
-    company: "Tech Solutions Inc.",
-    location: "Remote",
-    salaryRange: "$80,000 - $110,000",
-    durationToAchieve: "6-12 months",
-    summary:
-      "Develop and maintain user interfaces for web apps using modern JavaScript frameworks.",
-    requiredSkills: ["JavaScript", "React", "HTML/CSS", "UI/UX Design"],
-    matchPercent: 85,
-    category: "Frontend",
-    remote: true,
-  },
-  {
-    id: "project-manager",
-    title: "Project Manager",
-    company: "Global Innovations",
-    location: "Johannesburg",
-    salaryRange: "$70,000 - $95,000",
-    durationToAchieve: "12-18 months",
-    summary:
-      "Lead cross-functional teams to deliver projects on time, within scope and budget.",
-    requiredSkills: [
-      "Communication",
-      "Project Management",
-      "Agile Methodology",
-      "Risk Management",
-    ],
-    matchPercent: 70,
-    category: "Project Management",
-  },
-  {
-    id: "data-engineer",
-    title: "Data Engineer",
-    company: "Atlas DataWorks",
-    location: "Cape Town",
-    salaryRange: "$95,000 - $135,000",
-    durationToAchieve: "9-15 months",
-    summary:
-      "Design, build and optimize scalable data pipelines and lakehouse architectures.",
-    requiredSkills: [
-      "Python",
-      "SQL",
-      "ETL",
-      "Airflow",
-      "Spark",
-      "Data Modeling",
-    ],
-    matchPercent: 78,
-    category: "Data",
-  },
-  {
-    id: "backend-dev",
-    title: "Backend Engineer",
-    company: "Nimbus Cloud",
-    location: "Remote",
-    salaryRange: "$90,000 - $125,000",
-    durationToAchieve: "8-14 months",
-    summary:
-      "Build resilient APIs and services with Node.js and cloud-native patterns.",
-    requiredSkills: [
-      "Node.js",
-      "REST/GraphQL",
-      "PostgreSQL",
-      "Docker",
-      "Kubernetes",
-    ],
-    matchPercent: 66,
-    category: "Backend",
-    remote: true,
-  },
-  {
-    id: "ux-designer",
-    title: "UX Designer",
-    company: "PixelCraft Studio",
-    location: "Nairobi",
-    salaryRange: "$65,000 - $90,000",
-    durationToAchieve: "6-10 months",
-    summary:
-      "Create intuitive experiences through research, prototyping, and iterative design.",
-    requiredSkills: [
-      "Figma",
-      "User Research",
-      "Prototyping",
-      "Information Architecture",
-    ],
-    matchPercent: 62,
-    category: "Design",
-  },
-  {
-    id: "security-analyst",
-    title: "Cybersecurity Analyst",
-    company: "Sentinel Labs",
-    location: "Remote",
-    salaryRange: "$85,000 - $120,000",
-    durationToAchieve: "10-16 months",
-    summary:
-      "Monitor threats, harden systems, and automate incident response playbooks.",
-    requiredSkills: ["SIEM", "Threat Modeling", "Networking", "Scripting"],
-    matchPercent: 73,
-    category: "Security",
-    remote: true,
-  },
-];
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
@@ -184,10 +72,6 @@ function Stat({
   );
 }
 
-// -----------------------------
-// Main Component
-// -----------------------------
-
 export default function CareerPathways() {
   const [query, setQuery] = useState("");
   const [minMatch, setMinMatch] = useState<number[]>([0]);
@@ -203,10 +87,150 @@ export default function CareerPathways() {
     Security: true,
   });
   const [bookmarks, setBookmarks] = useState<Record<string, boolean>>({});
+  const [skillData, setSkillData] = useState<{
+    technicalSkills: string[];
+    softSkills: string[];
+    informalSkills: string[];
+    certifications: string[];
+    languages: { language: string; fluencyLevel: string }[];
+    educationLevel: string;
+    industryExperience: string;
+  } | null>(null);
 
+  // Load skill data from localStorage on mount
+  useEffect(() => {
+    const storedData = localStorage.getItem("skillAssessmentData");
+    if (storedData) {
+      setSkillData(JSON.parse(storedData));
+    }
+  }, []);
+
+  // Mock career data (with dynamic matchPercent)
+  const CAREERS: Career[] = [
+    {
+      id: "frontend-dev",
+      title: "Front-end Developer",
+      company: "Tech Solutions Inc.",
+      location: "Remote",
+      salaryRange: "$80,000 - $110,000",
+      durationToAchieve: "6-12 months",
+      summary:
+        "Develop and maintain user interfaces for web apps using modern JavaScript frameworks.",
+      requiredSkills: ["JavaScript", "React", "HTML/CSS", "UI/UX Design"],
+      matchPercent: 0, // Will be calculated
+      category: "Frontend",
+      remote: true,
+    },
+    {
+      id: "project-manager",
+      title: "Project Manager",
+      company: "Global Innovations",
+      location: "Johannesburg",
+      salaryRange: "$70,000 - $95,000",
+      durationToAchieve: "12-18 months",
+      summary:
+        "Lead cross-functional teams to deliver projects on time, within scope and budget.",
+      requiredSkills: [
+        "Communication",
+        "Project Management",
+        "Agile Methodology",
+        "Risk Management",
+      ],
+      matchPercent: 0, // Will be calculated
+      category: "Project Management",
+    },
+    {
+      id: "data-engineer",
+      title: "Data Engineer",
+      company: "Atlas DataWorks",
+      location: "Cape Town",
+      salaryRange: "$95,000 - $135,000",
+      durationToAchieve: "9-15 months",
+      summary:
+        "Design, build and optimize scalable data pipelines and lakehouse architectures.",
+      requiredSkills: ["Python", "SQL", "ETL", "Airflow", "Spark", "Data Modeling"],
+      matchPercent: 0, // Will be calculated
+      category: "Data",
+    },
+    {
+      id: "backend-dev",
+      title: "Backend Engineer",
+      company: "Nimbus Cloud",
+      location: "Remote",
+      salaryRange: "$90,000 - $125,000",
+      durationToAchieve: "8-14 months",
+      summary:
+        "Build resilient APIs and services with Node.js and cloud-native patterns.",
+      requiredSkills: [
+        "Node.js",
+        "REST/GraphQL",
+        "PostgreSQL",
+        "Docker",
+        "Kubernetes",
+      ],
+      matchPercent: 0, // Will be calculated
+      category: "Backend",
+      remote: true,
+    },
+    {
+      id: "ux-designer",
+      title: "UX Designer",
+      company: "PixelCraft Studio",
+      location: "Nairobi",
+      salaryRange: "$65,000 - $90,000",
+      durationToAchieve: "6-10 months",
+      summary:
+        "Create intuitive experiences through research, prototyping, and iterative design.",
+      requiredSkills: [
+        "Figma",
+        "User Research",
+        "Prototyping",
+        "Information Architecture",
+      ],
+      matchPercent: 0, // Will be calculated
+      category: "Design",
+    },
+    {
+      id: "security-analyst",
+      title: "Cybersecurity Analyst",
+      company: "Sentinel Labs",
+      location: "Remote",
+      salaryRange: "$85,000 - $120,000",
+      durationToAchieve: "10-16 months",
+      summary:
+        "Monitor threats, harden systems, and automate incident response playbooks.",
+      requiredSkills: ["SIEM", "Threat Modeling", "Networking", "Scripting"],
+      matchPercent: 0, // Will be calculated
+      category: "Security",
+      remote: true,
+    },
+  ];
+
+  // Calculate match percentage based on user's skills
+  const calculateMatchPercent = (requiredSkills: string[]) => {
+    if (!skillData) return 0;
+
+    const allUserSkills = [
+      ...skillData.technicalSkills,
+      ...skillData.softSkills,
+      ...skillData.informalSkills,
+      ...skillData.certifications,
+    ].map((s) => s.toLowerCase());
+
+    const matches = requiredSkills.filter((skill) =>
+      allUserSkills.includes(skill.toLowerCase())
+    ).length;
+    const totalRequired = requiredSkills.length;
+    return totalRequired > 0 ? Math.round((matches / totalRequired) * 100) : 0;
+  };
+
+  // Filter and update match percentages
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();
-    return CAREERS.filter((c) => {
+    return CAREERS.map((c) => ({
+      ...c,
+      matchPercent: calculateMatchPercent(c.requiredSkills),
+    })).filter((c) => {
       const categoryAllowed = categories[c.category];
       const matchesQuery =
         !q ||
@@ -218,7 +242,7 @@ export default function CareerPathways() {
       const matchesScore = c.matchPercent >= (minMatch?.[0] ?? 0);
       return categoryAllowed && matchesQuery && matchesRemote && matchesScore;
     });
-  }, [categories, minMatch, onlyRemote, query]);
+  }, [categories, minMatch, onlyRemote, query, skillData]);
 
   const toggleBookmark = (id: string) =>
     setBookmarks((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -381,7 +405,7 @@ export default function CareerPathways() {
                 </div>
 
                 <div className="mt-6 flex items-center justify-end">
-                  <Link to="/career/:id">
+                  <Link to={`/career/${c.id}`} state={{ career: c }}>
                     <Button className="rounded-xl bg-blue-600 hover:bg-white hover:text-blue-600 cursor-pointer">
                       <Briefcase className="mr-2 h-4 w-4" /> View Career Path
                     </Button>
